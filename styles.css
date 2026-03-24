@@ -56,7 +56,7 @@ body.light {
   --card-border:       rgba(0,0,0,0.05);
   --card-shadow:       0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
   --card-shadow-hover: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-  --hero-bg:           linear-gradient(145deg, #1d1d1f 0%, #2c2c2e 100%);
+  --hero-bg:           linear-gradient(145deg, #ffffff 0%, #f0f0f3 100%);
   --hero-tag-bg:       rgba(255,255,255,0.1);
   --hero-tag-border:   rgba(255,255,255,0.15);
   --hero-tag-color:    rgba(255,255,255,0.6);
@@ -89,6 +89,13 @@ body.light {
   --toggle-color:      #1d1d1f;
   --toggle-shadow:     0 4px 20px rgba(0,0,0,0.1);
 }
+
+/* light mode hero text overrides — hero is now light so text must be dark */
+body.light .hero-name  { color: #1d1d1f; }
+body.light .hero-title { color: rgba(0,0,0,0.5); }
+body.light .hero-loc   { color: rgba(0,0,0,0.35); }
+body.light .hero-tag   { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.5); }
+body.light .hero-bg    { color: rgba(0,0,0,0.04); }
 
 /* ─────────────────────────────────────
    BASE
@@ -195,7 +202,7 @@ body {
 .card-hero {
   grid-column: span 2;
   grid-row: span 2;
-  background: var(--hero-bg) !important;
+  background: var(--hero-bg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
