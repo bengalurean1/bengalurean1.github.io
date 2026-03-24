@@ -3,107 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data & IT Professional — Resume (Dark)</title>
+  <title>Data & IT Professional — Resume</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── CSS VARIABLES: DARK (default) ── */
+    :root {
+      --bg:               #000000;
+      --card-bg:          #1c1c1e;
+      --card-border:      rgba(255,255,255,0.05);
+      --hero-bg:          linear-gradient(145deg,#141414 0%,#0a0a0a 100%);
+      --hero-tag-bg:      rgba(255,255,255,0.06);
+      --hero-tag-border:  rgba(255,255,255,0.08);
+      --hero-tag-color:   rgba(255,255,255,0.45);
+      --hero-bg-text:     rgba(255,255,255,0.03);
+      --text-primary:     #f5f5f7;
+      --text-secondary:   rgba(255,255,255,0.55);
+      --text-muted:       rgba(255,255,255,0.3);
+      --text-faint:       rgba(255,255,255,0.25);
+      --stat-lbl:         rgba(255,255,255,0.35);
+      --tag-bg:           rgba(255,255,255,0.07);
+      --tag-color:        rgba(255,255,255,0.5);
+      --tag-border:       rgba(255,255,255,0.08);
+      --sec-lbl:          rgba(255,255,255,0.3);
+      --bar-track:        rgba(255,255,255,0.07);
+      --bar-name:         rgba(255,255,255,0.45);
+      --tl-role:          rgba(255,255,255,0.75);
+      --tl-period:        rgba(255,255,255,0.28);
+      --edu-school:       rgba(255,255,255,0.3);
+      --edu-div:          rgba(255,255,255,0.06);
+      --lang-border:      rgba(255,255,255,0.05);
+      --lang-name:        rgba(255,255,255,0.7);
+      --lang-badge-bg:    rgba(255,255,255,0.08);
+      --lang-badge-color: rgba(255,255,255,0.45);
+      --native-bg:        rgba(61,154,255,0.15);
+      --native-color:     #3d9aff;
+      --native-border:    rgba(61,154,255,0.2);
+      --accent:           #3d9aff;
+      --toggle-bg:        rgba(255,255,255,0.1);
+      --toggle-border:    rgba(255,255,255,0.15);
+      --toggle-color:     rgba(255,255,255,0.8);
+      --transition:       0.3s ease;
+    }
+
+    /* ── CSS VARIABLES: LIGHT ── */
+    body.light {
+      --bg:               #f5f5f7;
+      --card-bg:          #ffffff;
+      --card-border:      rgba(0,0,0,0.06);
+      --hero-bg:          linear-gradient(145deg,#1d1d1f 0%,#2c2c2e 100%);
+      --hero-tag-bg:      rgba(255,255,255,0.1);
+      --hero-tag-border:  rgba(255,255,255,0.12);
+      --hero-tag-color:   rgba(255,255,255,0.6);
+      --hero-bg-text:     rgba(255,255,255,0.04);
+      --text-primary:     #1d1d1f;
+      --text-secondary:   #3d3d3f;
+      --text-muted:       #86868b;
+      --text-faint:       #86868b;
+      --stat-lbl:         #86868b;
+      --tag-bg:           #f0f0f2;
+      --tag-color:        #3d3d3f;
+      --tag-border:       rgba(0,0,0,0.07);
+      --sec-lbl:          #86868b;
+      --bar-track:        #ebebed;
+      --bar-name:         #3d3d3f;
+      --tl-role:          #1d1d1f;
+      --tl-period:        #86868b;
+      --edu-school:       #86868b;
+      --edu-div:          #ebebed;
+      --lang-border:      #f0f0f2;
+      --lang-name:        #1d1d1f;
+      --lang-badge-bg:    #f0f0f2;
+      --lang-badge-color: #3d3d3f;
+      --native-bg:        #e8f0fe;
+      --native-color:     #0071e3;
+      --native-border:    rgba(0,113,227,0.2);
+      --accent:           #0071e3;
+      --toggle-bg:        rgba(0,0,0,0.06);
+      --toggle-border:    rgba(0,0,0,0.1);
+      --toggle-color:     #3d3d3f;
+    }
+
     body {
-      background: #000;
+      background: var(--bg);
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
       display: flex; justify-content: center; align-items: flex-start;
       min-height: 100vh; padding: 48px 24px; -webkit-font-smoothing: antialiased;
+      transition: background var(--transition);
     }
+
+    /* ── TOGGLE BUTTON ── */
+    .theme-toggle {
+      position: fixed;
+      top: 20px; right: 20px;
+      z-index: 100;
+      background: var(--toggle-bg);
+      border: 1px solid var(--toggle-border);
+      color: var(--toggle-color);
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 7px;
+      transition: all var(--transition);
+      font-family: inherit;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover { opacity: 0.8; transform: scale(1.04); }
+
+    /* ── BENTO GRID ── */
     .bento {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-auto-rows: 185px;
       gap: 16px; width: 1200px; max-width: 100%;
     }
-    .card { background: #1c1c1e; border-radius: 22px; padding: 26px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+    .card {
+      background: var(--card-bg);
+      border-radius: 22px; padding: 26px;
+      overflow: hidden; position: relative;
+      border: 1px solid var(--card-border);
+      transition: background var(--transition), border-color var(--transition);
+    }
 
-    /* HERO */
-    .card-hero { grid-column:span 2; grid-row:span 2; background:linear-gradient(145deg,#141414 0%,#0a0a0a 100%); display:flex; flex-direction:column; justify-content:space-between; }
+    /* ── HERO ── */
+    .card-hero { grid-column:span 2; grid-row:span 2; background: var(--hero-bg) !important; display:flex; flex-direction:column; justify-content:space-between; }
     .hero-accent { position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#0071e3 0%,#34c759 33%,#ff9f0a 66%,#ff375f 100%); border-radius:22px 22px 0 0; }
     .hero-glow { position:absolute; top:-60px; right:-60px; width:220px; height:220px; background:radial-gradient(circle,rgba(0,113,227,0.15) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
-    .hero-bg { position:absolute; bottom:20px; right:20px; font-size:120px; font-weight:900; color:rgba(255,255,255,0.03); line-height:1; user-select:none; letter-spacing:-4px; }
-    .hero-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:5px 12px; font-size:11px; color:rgba(255,255,255,0.45); font-weight:500; width:fit-content; }
+    .hero-bg { position:absolute; bottom:20px; right:20px; font-size:120px; font-weight:900; color:var(--hero-bg-text); line-height:1; user-select:none; letter-spacing:-4px; }
+    .hero-tag { display:inline-flex; align-items:center; gap:6px; background:var(--hero-tag-bg); border:1px solid var(--hero-tag-border); border-radius:20px; padding:5px 12px; font-size:11px; color:var(--hero-tag-color); font-weight:500; width:fit-content; }
     .hero-dot { width:6px; height:6px; border-radius:50%; background:#34c759; box-shadow:0 0 6px #34c759; }
     .hero-name { font-size:38px; font-weight:700; color:#f5f5f7; letter-spacing:-1px; line-height:1.05; }
     .hero-title { font-size:13px; color:rgba(255,255,255,0.4); margin-top:8px; line-height:1.5; font-weight:400; }
     .hero-loc { font-size:12px; color:rgba(255,255,255,0.25); margin-top:12px; }
 
-    /* STAT */
+    /* ── STAT ── */
     .card-stat { display:flex; flex-direction:column; justify-content:space-between; }
-    .stat-lbl { font-size:11px; color:rgba(255,255,255,0.35); font-weight:500; text-transform:uppercase; letter-spacing:0.5px; }
+    .stat-lbl { font-size:11px; color:var(--stat-lbl); font-weight:500; text-transform:uppercase; letter-spacing:0.5px; transition: color var(--transition); }
     .stat-val { font-size:48px; font-weight:700; letter-spacing:-2px; line-height:1; }
-    .stat-sub { font-size:11.5px; color:rgba(255,255,255,0.3); line-height:1.4; margin-top:4px; }
+    .stat-sub { font-size:11.5px; color:var(--text-muted); line-height:1.4; margin-top:4px; transition: color var(--transition); }
     .c-blue{color:#3d9aff} .c-green{color:#30d158} .c-orange{color:#ffa726} .c-red{color:#ff6b6b} .c-purple{color:#d490ff}
+    body.light .c-blue{color:#0071e3} body.light .c-green{color:#1d7b3c} body.light .c-orange{color:#b45309} body.light .c-red{color:#c9132b} body.light .c-purple{color:#7c3aed}
 
-    /* ROLE */
+    /* ── ROLE ── */
     .card-role { grid-column:span 2; display:flex; flex-direction:column; justify-content:space-between; }
-    .role-co { font-size:11px; font-weight:600; color:#3d9aff; text-transform:uppercase; letter-spacing:0.5px; }
-    .role-title { font-size:15px; font-weight:700; color:#f5f5f7; margin-top:4px; line-height:1.3; }
+    .role-co { font-size:11px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px; transition: color var(--transition); }
+    .role-title { font-size:15px; font-weight:700; color:var(--text-primary); margin-top:4px; line-height:1.3; transition: color var(--transition); }
     .role-bullets { display:flex; flex-direction:column; gap:5px; margin-top:8px; }
-    .role-bullet { font-size:11.5px; color:rgba(255,255,255,0.55); display:flex; gap:7px; line-height:1.4; }
-    .role-bullet::before { content:'·'; color:#3d9aff; font-weight:700; flex-shrink:0; }
+    .role-bullet { font-size:11.5px; color:var(--text-secondary); display:flex; gap:7px; line-height:1.4; transition: color var(--transition); }
+    .role-bullet::before { content:'·'; color:var(--accent); font-weight:700; flex-shrink:0; }
     .role-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-    .tag { font-size:10.5px; background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.5); padding:4px 10px; border-radius:20px; font-weight:500; border:1px solid rgba(255,255,255,0.08); }
+    .tag { font-size:10.5px; background:var(--tag-bg); color:var(--tag-color); padding:4px 10px; border-radius:20px; font-weight:500; border:1px solid var(--tag-border); transition: all var(--transition); }
 
-    /* SKILLS */
+    /* ── SKILLS ── */
     .card-skills { display:flex; flex-direction:column; justify-content:space-between; }
-    .sec-lbl { font-size:11px; color:rgba(255,255,255,0.3); font-weight:500; text-transform:uppercase; letter-spacing:0.4px; }
-    .sec-title { font-size:13px; font-weight:700; color:#f5f5f7; margin-top:3px; }
+    .sec-lbl { font-size:11px; color:var(--sec-lbl); font-weight:500; text-transform:uppercase; letter-spacing:0.4px; transition: color var(--transition); }
+    .sec-title { font-size:13px; font-weight:700; color:var(--text-primary); margin-top:3px; transition: color var(--transition); }
     .bars { display:flex; flex-direction:column; gap:8px; }
     .bar-row { display:flex; flex-direction:column; gap:3px; }
-    .bar-name { font-size:11px; color:rgba(255,255,255,0.45); font-weight:500; }
-    .bar-track { height:4px; background:rgba(255,255,255,0.07); border-radius:2px; overflow:hidden; }
+    .bar-name { font-size:11px; color:var(--bar-name); font-weight:500; transition: color var(--transition); }
+    .bar-track { height:4px; background:var(--bar-track); border-radius:2px; overflow:hidden; transition: background var(--transition); }
     .bar-fill { height:100%; border-radius:2px; }
 
-    /* TOOLS */
+    /* ── TOOLS ── */
     .card-tools { display:flex; flex-direction:column; gap:10px; }
     .pills { display:flex; flex-wrap:wrap; gap:6px; }
-    .pill { font-size:11px; padding:5px 11px; border-radius:20px; font-weight:600; }
+    .pill { font-size:11px; padding:5px 11px; border-radius:20px; font-weight:600; transition: all var(--transition); }
     .pill-blue{background:rgba(61,154,255,0.15);color:#3d9aff;border:1px solid rgba(61,154,255,0.2)}
     .pill-green{background:rgba(48,209,88,0.12);color:#30d158;border:1px solid rgba(48,209,88,0.18)}
     .pill-purple{background:rgba(212,144,255,0.12);color:#d490ff;border:1px solid rgba(212,144,255,0.18)}
     .pill-orange{background:rgba(255,167,38,0.12);color:#ffa726;border:1px solid rgba(255,167,38,0.18)}
-    .pill-grey{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.09)}
+    .pill-grey{background:var(--tag-bg);color:var(--tag-color);border:1px solid var(--tag-border)}
+    body.light .pill-blue{background:#e8f0fe;color:#0071e3;border-color:rgba(0,113,227,0.2)}
+    body.light .pill-green{background:#e6f9ec;color:#1d7b3c;border-color:rgba(29,123,60,0.2)}
+    body.light .pill-purple{background:#f3eeff;color:#7c3aed;border-color:rgba(124,58,237,0.2)}
+    body.light .pill-orange{background:#fff3e0;color:#b45309;border-color:rgba(180,83,9,0.2)}
 
-    /* TIMELINE — spans 2 rows so all 6 entries fit */
+    /* ── TIMELINE ── */
     .card-timeline { grid-column:span 2; grid-row:span 2; display:flex; flex-direction:column; gap:6px; }
     .tl-items { display:flex; flex-direction:column; gap:16px; margin-top:10px; }
     .tl-item { display:flex; gap:10px; align-items:flex-start; }
     .tl-dot { width:8px; height:8px; border-radius:50%; margin-top:3px; flex-shrink:0; }
-    .tl-role { font-size:12px; font-weight:600; color:rgba(255,255,255,0.75); line-height:1.3; }
-    .tl-period { font-size:10.5px; color:rgba(255,255,255,0.28); margin-top:1px; }
+    .tl-role { font-size:12px; font-weight:600; color:var(--tl-role); line-height:1.3; transition: color var(--transition); }
+    .tl-period { font-size:10.5px; color:var(--tl-period); margin-top:1px; transition: color var(--transition); }
 
-    /* EDUCATION */
+    /* ── EDUCATION ── */
     .card-edu { display:flex; flex-direction:column; justify-content:space-between; }
     .edu-icon { font-size:28px; }
-    .edu-degree { font-size:13px; font-weight:700; color:#f5f5f7; line-height:1.3; }
-    .edu-school { font-size:11px; color:rgba(255,255,255,0.3); margin-top:3px; }
-    .edu-div { height:1px; background:rgba(255,255,255,0.06); margin:10px 0; }
+    .edu-degree { font-size:13px; font-weight:700; color:var(--text-primary); line-height:1.3; transition: color var(--transition); }
+    .edu-school { font-size:11px; color:var(--edu-school); margin-top:3px; transition: color var(--transition); }
+    .edu-div { height:1px; background:var(--edu-div); margin:10px 0; transition: background var(--transition); }
 
-    /* LANGUAGES */
+    /* ── LANGUAGES ── */
     .card-lang { display:flex; flex-direction:column; justify-content:space-between; }
-    .lang-item { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .lang-item { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--lang-border); transition: border-color var(--transition); }
     .lang-item:last-child { border-bottom:none; }
-    .lang-name { font-size:12px; font-weight:600; color:rgba(255,255,255,0.7); }
-    .lang-badge { font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.45); }
-    .lang-badge.native { background:rgba(61,154,255,0.15); color:#3d9aff; border:1px solid rgba(61,154,255,0.2); }
+    .lang-name { font-size:12px; font-weight:600; color:var(--lang-name); transition: color var(--transition); }
+    .lang-badge { font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; background:var(--lang-badge-bg); color:var(--lang-badge-color); transition: all var(--transition); }
+    .lang-badge.native { background:var(--native-bg); color:var(--native-color); border:1px solid var(--native-border); }
 
-    /* GRADIENT HIGHLIGHT */
+    /* ── HIGHLIGHT ── */
     .card-hl-green { background:linear-gradient(145deg,#1a5c2a 0%,#30d158 100%); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:6px; }
     .hl-num { font-size:52px; font-weight:800; color:#fff; letter-spacing:-2px; line-height:1; }
     .hl-lbl { font-size:12px; color:rgba(255,255,255,0.85); line-height:1.5; font-weight:500; }
 
-    /* ── TABLET (2-column) ── */
+    /* ── TABLET ── */
     @media (max-width: 900px) {
       body { padding: 24px 16px; }
-      .bento {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: auto;
-        gap: 12px;
-      }
+      .bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; gap: 12px; }
       .card { padding: 22px; }
       .card-hero { grid-column: span 2; grid-row: span 1; min-height: 200px; }
       .card-role { grid-column: span 2; }
@@ -112,52 +221,41 @@
       .stat-val { font-size: 40px; }
     }
 
-    /* ── MOBILE (1-column) ── */
+    /* ── MOBILE ── */
     @media (max-width: 560px) {
       body { padding: 16px 12px; }
-      .bento {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
-        gap: 10px;
-      }
+      .bento { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 10px; }
       .card { padding: 20px; border-radius: 18px; }
-
-      /* All spanning cards become full width */
-      .card-hero    { grid-column: span 1; grid-row: span 1; min-height: 220px; }
-      .card-role    { grid-column: span 1; }
+      .card-hero { grid-column: span 1; grid-row: span 1; min-height: 220px; }
+      .card-role { grid-column: span 1; }
       .card-timeline { grid-column: span 1; grid-row: span 1; }
-
-      /* Hero tweaks */
       .hero-name { font-size: 28px; letter-spacing: -0.5px; }
       .hero-title { font-size: 12px; }
       .hero-bg { font-size: 80px; }
-
-      /* Stats */
       .stat-val { font-size: 42px; }
       .stat-sub { font-size: 11px; }
-
-      /* Role cards */
       .role-title { font-size: 14px; }
       .role-bullet { font-size: 11px; }
-
-      /* Timeline — show all entries with comfortable spacing */
       .tl-items { gap: 14px; }
-      .tl-role { font-size: 12px; }
-
-      /* Highlight card fixed height on mobile */
       .card-hl-green { min-height: 120px; }
       .hl-num { font-size: 44px; }
-
-      /* Pills wrap nicely */
       .pills { gap: 5px; }
       .pill { font-size: 10.5px; padding: 4px 10px; }
+      .theme-toggle { top: 12px; right: 12px; padding: 7px 13px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- THEME TOGGLE -->
+  <button class="theme-toggle" onclick="toggleTheme()" id="toggleBtn">
+    <span id="toggleIcon">☀️</span>
+    <span id="toggleLabel">Light</span>
+  </button>
+
 <div class="bento">
 
-  <!-- HERO row 1-2, col 1-2 -->
+  <!-- HERO -->
   <div class="card card-hero">
     <div class="hero-accent"></div>
     <div class="hero-glow"></div>
@@ -166,35 +264,35 @@
     <div>
       <div class="hero-name">Senior IT<br>Professional</div>
       <div class="hero-title">Project Manager · Data &amp; IT Systems<br>Enterprise Technology</div>
-      <div class="hero-loc"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="51323e3f25303225113429303c213d347f323e3c">[email&#160;protected]</a></div>
+      <div class="hero-loc">contact@example.com</div>
     </div>
   </div>
 
-  <!-- STAT row 1, col 3 -->
+  <!-- STAT: Experience -->
   <div class="card card-stat">
     <div class="stat-lbl">Experience</div>
-    <div><div class="stat-val c-blue">18+</div><div class="stat-sub">years across multiple<br>industries & sectors</div></div>
+    <div><div class="stat-val c-blue">18+</div><div class="stat-sub">years across multiple<br>industries &amp; sectors</div></div>
   </div>
 
-  <!-- STAT row 1, col 4 -->
+  <!-- STAT: Budget -->
   <div class="card card-stat">
     <div class="stat-lbl">Budget Managed</div>
-    <div><div class="stat-val c-green">€1M+</div><div class="stat-sub">across vendors &<br>programme delivery</div></div>
+    <div><div class="stat-val c-green">€1M+</div><div class="stat-sub">across vendors &amp;<br>programme delivery</div></div>
   </div>
 
-  <!-- STAT row 2, col 3 -->
+  <!-- STAT: Vendors -->
   <div class="card card-stat">
     <div class="stat-lbl">External Partners</div>
-    <div><div class="stat-val c-orange">11</div><div class="stat-sub">vendors &<br>consultants managed</div></div>
+    <div><div class="stat-val c-orange">11</div><div class="stat-sub">vendors &amp;<br>consultants managed</div></div>
   </div>
 
-  <!-- STAT row 2, col 4 -->
+  <!-- STAT: Systems -->
   <div class="card card-stat">
     <div class="stat-lbl">Systems Integrated</div>
     <div><div class="stat-val c-red">10</div><div class="stat-sub">E2E across<br>Enterprise Systems</div></div>
   </div>
 
-  <!-- ROLE: Current row 3, col 1-2 -->
+  <!-- ROLE: Current -->
   <div class="card card-role">
     <div>
       <div class="role-co">Large Enterprise Corp. &nbsp;·&nbsp; 2025 – Present</div>
@@ -211,19 +309,19 @@
     </div>
   </div>
 
-  <!-- STAT row 3, col 3 -->
+  <!-- STAT: 50%+ -->
   <div class="card card-stat">
     <div class="stat-lbl">Data Retrieval</div>
     <div><div class="stat-val c-purple">50%+</div><div class="stat-sub">faster via<br>Data Platform</div></div>
   </div>
 
-  <!-- STAT row 3, col 4 -->
+  <!-- STAT: 7 -->
   <div class="card card-stat">
     <div class="stat-lbl">Departments</div>
     <div><div class="stat-val c-blue">7</div><div class="stat-sub">cross-functional<br>teams aligned</div></div>
   </div>
 
-  <!-- ROLE: Product Owner row 4, col 1-2 -->
+  <!-- ROLE: Product Owner -->
   <div class="card card-role">
     <div>
       <div class="role-co">Large Enterprise Corp. &nbsp;·&nbsp; 2022 – 2025</div>
@@ -240,9 +338,9 @@
     </div>
   </div>
 
-  <!-- SKILLS row 4, col 3 -->
+  <!-- SKILLS -->
   <div class="card card-skills">
-    <div><div class="sec-lbl">Skills</div><div class="sec-title">Programme & Project Mgmt</div></div>
+    <div><div class="sec-lbl">Skills</div><div class="sec-title">Programme &amp; Project Mgmt</div></div>
     <div class="bars">
       <div class="bar-row"><div class="bar-name">Agile / Scrum</div><div class="bar-track"><div class="bar-fill" style="width:95%;background:linear-gradient(90deg,#0071e3,#3d9aff)"></div></div></div>
       <div class="bar-row"><div class="bar-name">E2E Delivery</div><div class="bar-track"><div class="bar-fill" style="width:92%;background:linear-gradient(90deg,#1a7a3a,#30d158)"></div></div></div>
@@ -251,9 +349,9 @@
     </div>
   </div>
 
-  <!-- TOOLS row 4, col 4 -->
+  <!-- TOOLS -->
   <div class="card card-tools">
-    <div class="sec-lbl">Tools & Stack</div>
+    <div class="sec-lbl">Tools &amp; Stack</div>
     <div class="pills">
       <span class="pill pill-blue">Cloud Platform</span><span class="pill pill-blue">DevOps Tool</span><span class="pill pill-blue">BI Tool</span>
       <span class="pill pill-green">ERP Tool</span><span class="pill pill-green">Lifecycle Tool</span>
@@ -263,7 +361,7 @@
     </div>
   </div>
 
-  <!-- TIMELINE row 5-6, col 1-2 — spans 2 rows -->
+  <!-- TIMELINE -->
   <div class="card card-timeline">
     <div class="sec-lbl">Career Journey</div>
     <div class="tl-items">
@@ -284,17 +382,17 @@
         <div><div class="tl-role">Student Developer &amp; Project Coordinator · Tech Start-up, Europe</div><div class="tl-period">Mar 2017 – Jul 2018</div></div>
       </div>
       <div class="tl-item">
-        <div class="tl-dot" style="background:#444"></div>
+        <div class="tl-dot" style="background:#888"></div>
         <div><div class="tl-role">Project Manager &amp; Developer · Global Technology Firm</div><div class="tl-period">2014 – 2016</div></div>
       </div>
       <div class="tl-item">
-        <div class="tl-dot" style="background:#333"></div>
+        <div class="tl-dot" style="background:#555"></div>
         <div><div class="tl-role">Digital Marketing &amp; IT · Various Companies</div><div class="tl-period">2007 – 2014</div></div>
       </div>
     </div>
   </div>
 
-  <!-- EDUCATION row 5, col 3 -->
+  <!-- EDUCATION -->
   <div class="card card-edu">
     <div class="edu-icon">🎓</div>
     <div>
@@ -306,7 +404,7 @@
     </div>
   </div>
 
-  <!-- LANGUAGES row 5, col 4 -->
+  <!-- LANGUAGES -->
   <div class="card card-lang">
     <div class="sec-lbl">Languages</div>
     <div>
@@ -316,10 +414,46 @@
     </div>
   </div>
 
-  <!-- 50+ ML highlight row 6, col 3 -->
+  <!-- HIGHLIGHT -->
   <div class="card card-hl-green">
     <div class="hl-num">50+</div>
     <div class="hl-lbl">Analytics &amp; ML use<br>cases enabled on Cloud</div>
   </div>
 
-  <!-- 100+ Data sources row 6, co
+  <!-- STAT: Data sources -->
+  <div class="card card-stat">
+    <div class="stat-lbl">Data Sources</div>
+    <div><div class="stat-val c-orange">100+</div><div class="stat-sub">sources in global<br>Corporate Data Catalog</div></div>
+  </div>
+
+</div>
+
+<script>
+  // Apply saved theme on page load
+  (function () {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.body.classList.add('light');
+      document.getElementById('toggleIcon').textContent = '🌙';
+      document.getElementById('toggleLabel').textContent = 'Dark';
+    }
+  })();
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    const icon  = document.getElementById('toggleIcon');
+    const label = document.getElementById('toggleLabel');
+    if (isLight) {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+      localStorage.setItem('theme', 'light');
+    } else {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+</script>
+
+</body>
+</html>
