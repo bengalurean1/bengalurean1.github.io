@@ -95,6 +95,63 @@
     .card-hl-green { background:linear-gradient(145deg,#1a5c2a 0%,#30d158 100%); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:6px; }
     .hl-num { font-size:52px; font-weight:800; color:#fff; letter-spacing:-2px; line-height:1; }
     .hl-lbl { font-size:12px; color:rgba(255,255,255,0.85); line-height:1.5; font-weight:500; }
+
+    /* ── TABLET (2-column) ── */
+    @media (max-width: 900px) {
+      body { padding: 24px 16px; }
+      .bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: auto;
+        gap: 12px;
+      }
+      .card { padding: 22px; }
+      .card-hero { grid-column: span 2; grid-row: span 1; min-height: 200px; }
+      .card-role { grid-column: span 2; }
+      .card-timeline { grid-column: span 2; grid-row: span 1; }
+      .hero-name { font-size: 32px; }
+      .stat-val { font-size: 40px; }
+    }
+
+    /* ── MOBILE (1-column) ── */
+    @media (max-width: 560px) {
+      body { padding: 16px 12px; }
+      .bento {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        gap: 10px;
+      }
+      .card { padding: 20px; border-radius: 18px; }
+
+      /* All spanning cards become full width */
+      .card-hero    { grid-column: span 1; grid-row: span 1; min-height: 220px; }
+      .card-role    { grid-column: span 1; }
+      .card-timeline { grid-column: span 1; grid-row: span 1; }
+
+      /* Hero tweaks */
+      .hero-name { font-size: 28px; letter-spacing: -0.5px; }
+      .hero-title { font-size: 12px; }
+      .hero-bg { font-size: 80px; }
+
+      /* Stats */
+      .stat-val { font-size: 42px; }
+      .stat-sub { font-size: 11px; }
+
+      /* Role cards */
+      .role-title { font-size: 14px; }
+      .role-bullet { font-size: 11px; }
+
+      /* Timeline — show all entries with comfortable spacing */
+      .tl-items { gap: 14px; }
+      .tl-role { font-size: 12px; }
+
+      /* Highlight card fixed height on mobile */
+      .card-hl-green { min-height: 120px; }
+      .hl-num { font-size: 44px; }
+
+      /* Pills wrap nicely */
+      .pills { gap: 5px; }
+      .pill { font-size: 10.5px; padding: 4px 10px; }
+    }
   </style>
 </head>
 <body>
@@ -109,7 +166,7 @@
     <div>
       <div class="hero-name">Senior IT<br>Professional</div>
       <div class="hero-title">Project Manager · Data &amp; IT Systems<br>Enterprise Technology</div>
-      <div class="hero-loc">contact@example.com</div>
+      <div class="hero-loc"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="51323e3f25303225113429303c213d347f323e3c">[email&#160;protected]</a></div>
     </div>
   </div>
 
@@ -265,7 +322,4 @@
     <div class="hl-lbl">Analytics &amp; ML use<br>cases enabled on Cloud</div>
   </div>
 
-  <!-- 100+ Data sources row 6, col 4 -->
-  <div class="card card-stat">
-    <div class="stat-lbl">Data Sources</div>
-    <div><div class="stat-val c-orange
+  <!-- 100+ Data sources row 6, co
