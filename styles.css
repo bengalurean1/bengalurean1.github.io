@@ -411,7 +411,7 @@ body.light .c-purple { color: #7c3aed; }
 /* ─────────────────────────────────────
    TOOLS / PILLS
 ───────────────────────────────────── */
-.card-tools { display: flex; flex-direction: column; gap: 10px; }
+.card-tools { display: flex; flex-direction: column; gap: 10px; grid-row: span 2; }
 .pills      { display: flex; flex-wrap: wrap; gap: 7px; }
 .pill {
   font-size: 11px;
