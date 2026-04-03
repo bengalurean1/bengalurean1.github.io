@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Atlas — Chiranth</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@300;400&family=Jost:wght@100;200;300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: #0d0c09; color: #ede4c8; font-family: 'Jost', sans-serif; font-weight: 200; overflow: hidden; }
+body { position: relative; display: flex; flex-direction: column; min-height: 100vh; }
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 100% 60% at 50% 20%, rgba(200,160,60,0.07) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; top: 50px; left: 50%; transform: translateX(-50%); width: min(300px, 82vw); height: min(300px, 82vw); border-radius: 50%; border: 1px solid rgba(210,175,90,0.05); pointer-events: none; z-index: 0; }
+.wallpaper { position: relative; z-index: 2; width: 100%; flex: 1 1 auto; display: flex; flex-direction: column; padding: env(safe-area-inset-top, 52px) 28px env(safe-area-inset-bottom, 36px); padding-top: max(env(safe-area-inset-top), 52px); padding-bottom: max(env(safe-area-inset-bottom), 36px); }
+.wallpaper > * { opacity: 0; transform: translateY(10px); animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+.wallpaper > *:nth-child(1) { animation-delay: 0.05s; }
+.wallpaper > *:nth-child(2) { animation-delay: 0.2s; }
+.wallpaper > *:nth-child(3) { animation-delay: 0.35s; }
+.wallpaper > *:nth-child(4) { animation-delay: 0.45s; }
+.wallpaper > *:nth-child(5) { animation-delay: 0.55s; }
+.wallpaper > *:nth-child(6) { animation-delay: 0.65s; }
+.wallpaper > *:nth-child(7) { animation-delay: 0.72s; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.location { font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.45em; text-transform: uppercase; color: rgba(210,175,90,0.5); text-align: center; margin-bottom: 14px; }
+.clock-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+.clock-svg { width: min(200px, 56vw); height: min(200px, 56vw); overflow: visible; }
+.date-strip { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin-bottom: 14px; }
+.day { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.3em; color: rgba(210,175,90,0.45); text-transform: uppercase; }
+.date-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 8vw, 36px); font-weight: 300; color: rgba(237,228,200,0.9); line-height: 1; }
+.month-yr { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.2em; color: rgba(210,175,90,0.45); text-transform: uppercase; }
+.divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(210,175,90,0.2) 40%, transparent); margin: 10px 0; }
+.zones { display: flex; justify-content: space-around; margin-bottom: 14px; }
+.zone { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.mini-svg { width: min(60px, 17vw); height: min(60px, 17vw); overflow: visible; }
+.zone-label { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.25em; color: rgba(210,175,90,0.4); text-transform: uppercase; }
+.zone-time { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: rgba(237,228,200,0.6); letter-spacing: 0.05em; }
+.trips-label { font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.4em; color: rgba(210,175,90,0.3); text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+.trip { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(210,175,90,0.07); }
+.trip:last-child { border-bottom: none; }
+.trip-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(237,228,200,0.55); display: flex; align-items: center; gap: 7px; }
+.trip.today .trip-name { color: rgba(210,175,90,0.9); }
+.trip.done { opacity: 0.2; }
+.trip-d { font-family: 'Cinzel', serif; font-size: 13px; color: rgba(210,175,90,0.5); letter-spacing: 0.05em; }
+.trip.today .trip-d { color: rgba(237,228,200,0.9); }
+.handle { margin-top: 14px; text-align: center; font-family: 'Cinzel', serif; font-size: 7px; letter-spacing: 0.4em; color: rgba(210,175,90,0.2); }
+@keyframes blink { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="wallpaper">
+  <div class="location">Esslingen am Neckar</div>
+  <div class="clock-wrap">
+    <svg class="clock-svg" id="clk-main" viewBox="0 0 200 200"></svg>
+  </div>
+  <div class="date-strip">
+    <div class="day" id="a-day">—</div>
+    <div class="date-num" id="a-date">—</div>
+    <div class="month-yr" id="a-month">—</div>
+  </div>
+  <div class="divider"></div>
+  <div class="zones">
+    <div class="zone">
+      <svg class="mini-svg" id="clk-paris" viewBox="0 0 60 60"></svg>
+      <div class="zone-label">Paris</div>
+      <div class="zone-time" id="t-paris">—</div>
+    </div>
+    <div class="zone">
+      <svg class="mini-svg" id="clk-ist" viewBox="0 0 60 60"></svg>
+      <div class="zone-label">Bengaluru</div>
+      <div class="zone-time" id="t-ist">—</div>
+    </div>
+    <div class="zone">
+      <svg class="mini-svg" id="clk-ny" viewBox="0 0 60 60"></svg>
+      <div class="zone-label">New York</div>
+      <div class="zone-time" id="t-ny">—</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div>
+    <div class="trips-label">Upcoming Journeys</div>
+    <div class="trip" id="tr-ch"><span class="trip-name">🇨🇭 Switzerland</span><span class="trip-d" id="d-ch">—</span></div>
+    <div class="trip" id="tr-at"><span class="trip-name">🇦🇹 Hallstatt</span><span class="trip-d" id="d-at">—</span></div>
+    <div class="trip" id="tr-fr"><span class="trip-name">🇫🇷 Paris</span><span class="trip-d" id="d-fr">—</span></div>
+  </div>
+  <div class="handle">@bengalurean</div>
+</div>
+<script>
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const TRIPS=[{target:new Date(2026,3,5),rowId:'tr-ch',dId:'d-ch'},{target:new Date(2026,3,11),rowId:'tr-at',dId:'d-at'},{target:new Date(2026,3,16),rowId:'tr-fr',dId:'d-fr'}];
+function pad(n){return String(n).padStart(2,'0');}
+function daysUntil(t){const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());return Math.round((t-today)/86400000);}
+function timeInZone(o){const now=new Date();const utcMs=now.getTime()+now.getTimezoneOffset()*60000;return new Date(utcMs+o*3600000);}
+function getOffset(z){const m=new Date().getMonth();const eu=m>=2&&m<=9;const us=m>=2&&m<=10;if(z==='paris')return eu?2:1;if(z==='india')return 5.5;if(z==='ny')return us?-4:-5;return 0;}
+function drawClock(svgId,cx,cy,r,h,m,s,isMain){
+  const svg=document.getElementById(svgId);if(!svg)return;svg.innerHTML='';const ns='http://www.w3.org/2000/svg';
+  const ring=isMain?'rgba(210,175,90,0.22)':'rgba(210,175,90,0.16)';
+  const face=isMain?'rgba(210,175,90,0.05)':'rgba(0,0,0,0)';
+  const tick=isMain?'rgba(210,175,90,0.18)':'rgba(210,175,90,0.12)';
+  const tickM=isMain?'rgba(210,175,90,0.35)':'rgba(210,175,90,0.25)';
+  const hourC=isMain?'rgba(237,228,200,0.9)':'rgba(237,228,200,0.65)';
+  const minC=isMain?'rgba(210,175,90,0.9)':'rgba(210,175,90,0.75)';
+  const dotC=isMain?'rgba(210,175,90,0.9)':'rgba(210,175,90,0.7)';
+  const fc=document.createElementNS(ns,'circle');fc.setAttribute('cx',cx);fc.setAttribute('cy',cy);fc.setAttribute('r',r);fc.setAttribute('fill',face);fc.setAttribute('stroke',ring);fc.setAttribute('stroke-width',isMain?'1':'0.8');svg.appendChild(fc);
+  for(let i=0;i<12;i++){const a=i*30*Math.PI/180;const isMaj=i%3===0;const len=isMaj?(isMain?9:5):(isMain?5:3);const r1=r-(isMain?4:2.5);const r2=r1-len;const tl=document.createElementNS(ns,'line');tl.setAttribute('x1',cx+r1*Math.sin(a));tl.setAttribute('y1',cy-r1*Math.cos(a));tl.setAttribute('x2',cx+r2*Math.sin(a));tl.setAttribute('y2',cy-r2*Math.cos(a));tl.setAttribute('stroke',isMaj?tickM:tick);tl.setAttribute('stroke-width',isMain?(isMaj?1.2:0.7):0.7);svg.appendChild(tl);}
+  const ha=((h%12)+m/60)*30*Math.PI/180;const hl=r*(isMain?0.52:0.5);const hh=document.createElementNS(ns,'line');hh.setAttribute('x1',cx);hh.setAttribute('y1',cy);hh.setAttribute('x2',cx+hl*Math.sin(ha));hh.setAttribute('y2',cy-hl*Math.cos(ha));hh.setAttribute('stroke',hourC);hh.setAttribute('stroke-width',isMain?2.8:1.8);hh.setAttribute('stroke-linecap','round');svg.appendChild(hh);
+  const ma=(m+s/60)*6*Math.PI/180;const ml=r*(isMain?0.73:0.68);const mh=document.createElementNS(ns,'line');mh.setAttribute('x1',cx);mh.setAttribute('y1',cy);mh.setAttribute('x2',cx+ml*Math.sin(ma));mh.setAttribute('y2',cy-ml*Math.cos(ma));mh.setAttribute('stroke',minC);mh.setAttribute('stroke-width',isMain?1.8:1.2);mh.setAttribute('stroke-linecap','round');svg.appendChild(mh);
+  if(isMain){const sa=s*6*Math.PI/180;const sl=r*0.82;const sh=document.createElementNS(ns,'line');sh.setAttribute('x1',cx-(r*0.18)*Math.sin(sa));sh.setAttribute('y1',cy+(r*0.18)*Math.cos(sa));sh.setAttribute('x2',cx+sl*Math.sin(sa));sh.setAttribute('y2',cy-sl*Math.cos(sa));sh.setAttribute('stroke','#e03030');sh.setAttribute('stroke-width','0.9');sh.setAttribute('stroke-linecap','round');svg.appendChild(sh);}
+  const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('r',isMain?3.5:2.5);dot.setAttribute('fill',dotC);svg.appendChild(dot);
+}
+function update(){
+  const local=new Date();const paris=timeInZone(getOffset('paris'));const india=timeInZone(getOffset('india'));const ny=timeInZone(getOffset('ny'));
+  const lh=local.getHours(),lm=local.getMinutes(),ls=local.getSeconds();
+  const ph=paris.getHours(),pm=paris.getMinutes(),ps=paris.getSeconds();
+  const ih=india.getHours(),im=india.getMinutes(),is_=india.getSeconds();
+  const nh=ny.getHours(),nm=ny.getMinutes(),ns_=ny.getSeconds();
+  drawClock('clk-main',100,100,90,lh,lm,ls,true);
+  drawClock('clk-paris',30,30,26,ph,pm,ps,false);
+  drawClock('clk-ist',30,30,26,ih,im,is_,false);
+  drawClock('clk-ny',30,30,26,nh,nm,ns_,false);
+  document.getElementById('a-day').textContent=DAYS[local.getDay()].toUpperCase();
+  document.getElementById('a-date').textContent=local.getDate();
+  document.getElementById('a-month').textContent=MONTHS_S[local.getMonth()]+'  '+local.getFullYear();
+  document.getElementById('t-paris').textContent=pad(ph)+':'+pad(pm);
+  document.getElementById('t-ist').textContent=pad(ih)+':'+pad(im);
+  document.getElementById('t-ny').textContent=pad(nh)+':'+pad(nm);
+  TRIPS.forEach(({target,rowId,dId})=>{const d=daysUntil(target);const row=document.getElementById(rowId);const el=document.getElementById(dId);row.className='trip';if(d>0){el.textContent=d+'d';}else if(d===0){el.textContent='Today ✈';row.classList.add('today');}else{el.textContent='✓';row.classList.add('done');}});
+}
+update();setInterval(update,1000);
+</script>
+</body>
+</html>
